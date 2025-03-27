@@ -1,0 +1,197 @@
+<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Weather Web App</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      * {
+  margin: 1;
+}
+body {
+  background-color:rgb(17, 215, 215);
+}
+.nav {
+  align-items: center;
+  background-color: yellow;
+  padding: 10px;
+  border-radius: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 98%;
+}
+.nav:hover {
+  background-color: whitesmoke;
+}
+a {
+  text-decoration: none;
+  color: #1c0404;
+  font-family: Forte;
+}
+a:hover {
+  background-color: rgb(91, 183, 220);
+  padding: 10x;
+  box-shadow: 20px;
+  border-radius: 50px;
+}
+.nav1 {
+  align-items: center;
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+}
+.nav2 {
+  align-items: center;
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+}
+
+ .weather-details{
+  text-align: center;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+ }
+.weather h1 {
+  font-size: 60px;
+  font-weight: 500px;
+  margin-top: 5px;
+  padding: 40px;
+  text-align: center;
+}
+.weather h2 {
+  font-size: 30px;
+  font-weight: 400px;
+  margin-top: 1px;
+  margin-bottom: 20px;
+  font-family: cursive;
+  text-align: center;
+}
+.details {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10 150px;
+  margin-top: 50px;
+}
+.weather {
+  padding: 40px;
+}
+
+
+.current{
+  margin-top: 50px;
+  padding-left: 30px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: larger;
+ }
+
+    </style>
+  </head>
+  <body>
+    <nav class="nav">
+      <a href="#home" class="nav1">Home</a>
+      <a href="./index1.html" class="nav2">Feature</a>
+    </nav>
+
+      <div class="current" id="current">
+        <div class="time" id="time">--:--:--</div>
+        <div class="day" id="day">Loading...</div>
+        <div class="date" id="date">Loading...</div>
+      </div>
+
+        <div class="weather">
+        <div class="weather-details">
+          <i id="weather-icon" class="fas fa-cloud-sun"></i>
+          <p id="weather-description"></p>
+        </div>
+        <h1 class="temp" id="temp">22 ºC</h1>
+        <h2 class="city" id="city">Biratnagar</h2>
+        
+        <div class="details">
+          <div class="col">
+            <i class="fas fa-tint hym"></i>
+            <div class="humidity-details">
+              <p id="humidity">20%</p>
+              <p>Humidity</p>
+            </div>
+          </div>
+          <div class="col">
+            <i class="fas fa-tachometer-alt pressure"></i>
+            <div>
+              <p class="pressure" id="pressure">10</p>
+              <p>Pressure</p>
+            </div>
+          </div>
+          <div class="col">
+            <i class="fas fa-compass direction"></i>
+            <div> 
+              <p class="direction" id="direction">10</p>
+              <p>Wind direction</p>
+            </div>
+          </div>
+          <div class="col">
+            <i class="fas fa-wind wind"></i>
+            <div class="wind-details">
+              <p id="wind">1 km per hrs</p>
+              <p>Wind Speed</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    <script>
+const apiurl = "http://localhost/WA/connection.php?q=";
+
+async function getWeather(city) {
+  
+       const response = await fetch(apiurl + city);
+        const data = await response.json();
+
+console.log(data);
+
+            document.getElementById("city").innerText = data[0].CityName;
+            document.getElementById("temp").innerText = data[0].Temperature + "°C";
+            document.getElementById("wind").innerText = data[0].WindSpeed + " km/h";
+            document.getElementById("humidity").innerText = data[0].Humidity + "%";
+            document.getElementById("pressure").innerText = data[0].Pressure + " hPa";
+            document.getElementById("direction").innerText = data[0].Direction + "°C";
+            document.getElementById("weather-description").innerText = data[0].WeatherCondition;
+            
+            const weatherCode = "01d"; 
+            const iconurl = `https://openweathermap.org/img/wn/${weatherCode}@2x.png`;
+            document.getElementById("weather-icon").src = weather[0].Iconurl;
+  
+}
+    
+      getWeather("Biratnagar");
+
+
+      function updateDateTime() {
+        const now = new Date();
+        const time = now.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        });
+        const day = now.toLocaleDateString("en-US", { weekday: "long" });
+        const date = now.toLocaleDateString("en-US", {
+          month: "long",
+          day: "numeric",
+          year: "numeric",
+        });
+        document.getElementById("time").innerText = time;
+        document.getElementById("day").innerText = day;
+        document.getElementById("date").innerText = date;
+      }
+    
+      setInterval(updateDateTime, 1000);
+    </script>
+  </body>
+</html>
